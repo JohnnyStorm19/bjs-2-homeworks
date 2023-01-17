@@ -160,7 +160,7 @@ class Student {
 
     }
     addMark(mark, subject) {
-        if(mark > 5 && mark < 2) {
+        if(mark > 5 || mark < 2) {
             return;
         } 
         if(!this.marks.hasOwnProperty(subject)){
@@ -171,7 +171,7 @@ class Student {
        }
     }
     getAverageBySubject(subject) {
-        if(this.marks.hasOwnProperty(subject)) {
+        if(this.marks.hasOwnProperty(subject) && this.marks[subject].length > 0) {
             return this.marks[subject].reduce( (acc, current) => acc + current) / this.marks[subject].length;
         } else {
             return 0;
@@ -179,8 +179,12 @@ class Student {
     }
     getAverage() {
         let keys = Object.keys(this.marks);
-        let averageMarks = keys.map(item => this.getAverageBySubject(item));
-        return averageMarks.reduce((acc, current) => acc + current) / averageMarks.length;
+        if(keys.length === 0) {
+            return 0;
+        } else {
+            let averageMarks = keys.map((item) => this.getAverageBySubject(item));
+            return averageMarks.reduce((acc, current) => acc + current) / averageMarks.length;
+        }
     }
 
 }
